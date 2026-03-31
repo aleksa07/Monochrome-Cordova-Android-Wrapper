@@ -2,17 +2,28 @@
 <widget id="com.yourname.monochrome" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Monochrome</name>
     <description>A wrapper for monochrome.tf</description>
-    <author>
-        aleksa07
-    </author>
-    <content src="index.html" />
+    <author>aleksa07</author>
+
+    <content src="https://monochrome.tf" />
 
     <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-navigation href="https://monochrome.tf/*" />
-    <allow-navigation href="https://*.monochrome.tf/*" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
+
     <preference name="Fullscreen" value="true" />
-    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="SplashScreenDelay" value="0" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="FadeSplashScreen" value="true" />
+
     <icon src="www/icon.jpg" />
+
+    <platform name="android">
+        <preference name="Fullscreen" value="true" />
+        <preference name="StatusBarOverlaysWebView" value="false" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/splash.png" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#000000" />
+
+        <icon src="www/icon.jpg" />
+    </platform>
 </widget>
