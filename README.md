@@ -39,3 +39,5 @@ APK will be at `platforms/android/app/build/outputs/apk/debug/app-debug.apk`
 
 ## Disclaimer
 This is an unofficial wrapper and is not affiliated with or endorsed by monochrome.tf.
+
+(Writtem By a LLM P.S("I got lazy okay its 1:42 am as of writing this"))
