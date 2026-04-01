@@ -1,36 +1,19 @@
 {
-  "name": "com.yourname.monochrome",
-  "displayName": "MonochromeApp",
-  "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "main": "index.js",
+  "name": "monochrome-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [
-    "ecosystem:cordova"
-  ],
-  "author": "Apache Cordova Team",
-  "license": "Apache-2.0",
   "devDependencies": {
-    "cordova-android": "^15.0.0",
-    "cordova-plugin-fullscreen": "^1.3.0",
-    "cordova-plugin-inappbrowser": "^6.0.0",
-    "cordova-plugin-screen-orientation": "^3.0.4",
-    "cordova-plugin-splashscreen": "^6.0.1",
-    "cordova-plugin-statusbar": "^4.0.0",
-    "es6-promise-plugin": "^4.2.2"
+    "vite": "^8.0.1"
   },
-  "cordova": {
-    "platforms": [
-      "android"
-    ],
-    "plugins": {
-      "cordova-plugin-statusbar": {},
-      "cordova-plugin-screen-orientation": {},
-      "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-fullscreen": {},
-      "cordova-plugin-splashscreen": {}
-    }
+  "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0"
   }
 }

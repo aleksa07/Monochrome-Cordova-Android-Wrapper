@@ -1,0 +1,13 @@
+{
+  "appId": "com.monochrome.app",
+  "appName": "Monochrome",
+  "webDir": "dist",
+  "server": {
+    "url": "https://monochrome.tf",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  }
+}
