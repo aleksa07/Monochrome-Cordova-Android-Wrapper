@@ -6,6 +6,9 @@ on:
       - Rewrite
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,6 +44,9 @@ jobs:
         env:
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: List APK output
+        run: find android/app/build/outputs -name "*.apk" 2>/dev/null || echo "No APKs found"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
