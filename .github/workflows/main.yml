@@ -33,6 +33,9 @@ jobs:
       - name: Decode keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > monochrome.keystore
 
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
       - name: Build release APK
         run: cd android && ./gradlew assembleRelease
         env:
