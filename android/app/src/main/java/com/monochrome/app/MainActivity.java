@@ -90,6 +90,34 @@ public class MainActivity extends BridgeActivity {
                 triggerMediaSessionAction("stop");
             }
             @Override
+            public boolean onMediaButtonEvent(android.content.Intent mediaButtonIntent) {
+                android.view.KeyEvent keyEvent = mediaButtonIntent.getParcelableExtra(android.content.Intent.EXTRA_KEY_EVENT);
+                if (keyEvent != null && keyEvent.getAction() == android.view.KeyEvent.ACTION_DOWN) {
+                    switch (keyEvent.getKeyCode()) {
+                        case android.view.KeyEvent.KEYCODE_MEDIA_PLAY:
+                            Log.d(TAG, "MediaButton: PLAY");
+                            triggerMediaSessionAction("play");
+                            return true;
+                        case android.view.KeyEvent.KEYCODE_MEDIA_PAUSE:
+                            Log.d(TAG, "MediaButton: PAUSE");
+                            triggerMediaSessionAction("pause");
+                            return true;
+                        case android.view.KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                            Log.d(TAG, "MediaButton: PLAY_PAUSE toggle, isPlaying=" + isPlaying);
+                            triggerMediaSessionAction(isPlaying ? "pause" : "play");
+                            return true;
+                        case android.view.KeyEvent.KEYCODE_MEDIA_NEXT:
+                            Log.d(TAG, "MediaButton: NEXT");
+                            triggerMediaSessionAction("nexttrack");
+                            return true;
+                        case android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                            Log.d(TAG, "MediaButton: PREVIOUS");
+                            triggerMediaSessionAction("previoustrack");
+                            return true;
+                    }
+                }
+                return super.onMediaButtonEvent(mediaButtonIntent);
+            }
             public void onSeekTo(long pos) {
                 Log.d(TAG, "MediaSession callback: onSeekTo pos=" + (pos / 1000.0) + "s");
                 runOnUiThread(() ->
@@ -177,6 +205,8 @@ public class MainActivity extends BridgeActivity {
                             mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                                 .setState(state, lastPosition, paused ? 0f : rate)
                                 .setActions(
+                                    PlaybackStateCompat.ACTION_PLAY |
+                                    PlaybackStateCompat.ACTION_PAUSE |
                                     PlaybackStateCompat.ACTION_PLAY_PAUSE |
                                     PlaybackStateCompat.ACTION_SKIP_TO_NEXT |
                                     PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
@@ -314,12 +344,12 @@ public class MainActivity extends BridgeActivity {
     class MediaSessionBridge {
         @JavascriptInterface
         public void setMetadata(String title, String artist, String album, String artworkUrl) {
-            currentTitle = title;
-            currentArtist = artist;
 
             // Only reset position if it's actually a new track, not a null→real metadata cycle
             boolean isNewTrack = !title.isEmpty() && !title.equals(currentTitle);
             if (isNewTrack) lastPosition = 0;
+            currentTitle = title;
+            currentArtist = artist;
 
             // Preserve existing duration — don't reset to 0
             long existingDuration = 0;
@@ -407,7 +437,7 @@ public class MainActivity extends BridgeActivity {
 
         @JavascriptInterface
         public void setPlaybackState(String state) {
-            Log.d(TAG, "setPlaybackState: " + state + " lastPosition=" + (lastPosition/1000) + "s");
+            Log.d(TAG, "setPlaybackState: " + state);
             isPlaying = state.equals("playing");
             int pbState = isPlaying
                 ? PlaybackStateCompat.STATE_PLAYING
@@ -415,6 +445,8 @@ public class MainActivity extends BridgeActivity {
             mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                 .setState(pbState, lastPosition, isPlaying ? lastRate : 0f)
                 .setActions(
+                    PlaybackStateCompat.ACTION_PLAY |
+                    PlaybackStateCompat.ACTION_PAUSE |
                     PlaybackStateCompat.ACTION_PLAY_PAUSE |
                     PlaybackStateCompat.ACTION_SKIP_TO_NEXT |
                     PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
@@ -434,6 +466,8 @@ public class MainActivity extends BridgeActivity {
             mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                 .setState(state, lastPosition, lastRate)
                 .setActions(
+                    PlaybackStateCompat.ACTION_PLAY |
+                    PlaybackStateCompat.ACTION_PAUSE |
                     PlaybackStateCompat.ACTION_PLAY_PAUSE |
                     PlaybackStateCompat.ACTION_SKIP_TO_NEXT |
                     PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
